@@ -1,0 +1,27 @@
+/* Common start */
+
+body 
+{
+	background-color:#333333;
+}
+
+/* Common end */
+
+/* Navigation bar start */
+
+.navbar-default
+{
+	background-color:#666666;
+}
+
+.navbar-nav>li>a:link    {color: white; }
+.navbar-nav>li>a:active  {color: white; }
+.navbar-nav>li>a:visited {color: white; }
+
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover 
+{
+	color: #CCCCCC; 
+}
+
+
+/* Navigation bar end */
