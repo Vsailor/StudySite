@@ -6,9 +6,9 @@ using StudySite.Data;
 
 namespace StudySite.Services
 {
-    public class DynamicContentService
+    public class IndexNewsService
     {
-        DynamicContentRepository _repository = new DynamicContentRepository();
+        IndexNewsRepository _repository = new IndexNewsRepository();
         public string GetNews()
         {
             return _repository.ReadNewVersionCounters();

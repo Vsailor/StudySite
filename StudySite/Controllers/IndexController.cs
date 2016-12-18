@@ -5,17 +5,17 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.UI.WebControls;
 using StudySite.Services;
 
 namespace StudySite.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IndexController : ApiController
     {
-        private DynamicContentService _dynamicContentService = new DynamicContentService();
+        private IndexNewsService _indexNewsService = new IndexNewsService();
         public string Get()
         {
-            return _dynamicContentService.GetNews();
+            return _indexNewsService.GetNews();
         }
     }
 }

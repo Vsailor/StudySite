@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.WindowsAzure.Storage.Table;
+using System.Runtime.Serialization;
 
 namespace StudySite.Data.Models
 {
-    public class DynamicContentEntity : TableEntity
+    public class Message : TableEntity
     {
-        public string Content { get; set; }
+        public string Name { get; set; }
+
+        public string Text { get; set; }
     }
 }

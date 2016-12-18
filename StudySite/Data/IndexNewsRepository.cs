@@ -10,18 +10,18 @@ using StudySite.Data.Models;
 
 namespace StudySite.Data
 {
-    public class DynamicContentRepository
+    public class IndexNewsRepository
     {
         public string ReadNewVersionCounters()
         {
             CloudStorageAccount account;
-            CloudStorageAccount.TryParse(ConfigurationManager.AppSettings["DynamicContentConnection"], out account);
+            CloudStorageAccount.TryParse(ConfigurationManager.AppSettings["DataConnection"], out account);
             CloudTableClient client = account.CreateCloudTableClient();
             CloudTable cloudTable = client.GetTableReference("DynamicContent");
-            TableQuery<DynamicContentEntity> tq = new TableQuery<DynamicContentEntity>();
+            TableQuery<IndexNews> tq = new TableQuery<IndexNews>();
             string query = "PartitionKey eq 'Index.News'";
             tq.Where(query).Take(1);
-            DynamicContentEntity result = cloudTable.ExecuteQuery(tq).FirstOrDefault();
+            IndexNews result = cloudTable.ExecuteQuery(tq).FirstOrDefault();
             return result.Content;
         }
     }

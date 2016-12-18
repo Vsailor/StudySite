@@ -18,10 +18,14 @@ body
 .navbar-nav>li>a:active  {color: white; }
 .navbar-nav>li>a:visited {color: white; }
 
-.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover 
-{
-	color: #CCCCCC; 
+
+.navbar-nav>li>a:hover {
+	background-color:#333333;
+    color: #CCCCCC
 }
 
+.container>.navbar-header {
+    background-color:#333333;
+}
 
 /* Navigation bar end */

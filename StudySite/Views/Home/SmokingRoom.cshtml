@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "SmokingRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body ng-app="SmokingRoom" ng-controller="SmokingRoomController">
+    <div class="brand">With love to .NET</div>
+    <div class="address-bar">мы любим .net</div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="Index">Главная</a>
+            </li>
+            <li>
+                <a href="Lessons">Уроки</a>
+            </li>
+            <li>
+                <a href="BadCode">Плохой код</a>
+            </li>
+            <li>
+                <a href="SmokingRoom">Курилка</a>
+            </li>
+        </ul>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="Index">With love to .NET</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        Тут можно спамить <font size="5">☺</font>
+                    </h2>
+                    <hr>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label>Ваше имя:</label><br/>
+                            <input class="form-control" type="text" placeholder="Имя" ng-model="user.name" ng-minlength="3" ng-maxlength="15" required>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-group col-lg-12">
+                            <label>Сообщение:</label>
+                            <textarea class="form-control" ng-model="user.newMessage" rows="3" placeholder="Текст сообщения" ng-minlength="1" required></textarea>
+                        </div>
+                        <div class="form-group col-lg-12">
+                            <button ng-click="SendMessage()" class="btn btn-default">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row" ng-repeat="post in messages">
+                        <div class="form-group col-lg-4">
+                            <label>{{post.name}}</label>
+                            <font size="2">
+                                <span style="opacity: 0.5">{{post.dateTime}}</span><br />
+                                {{post.text}}<br />
+                            </font>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="~/StaticContent/js/Controllers/smokingroom.js"></script>
+

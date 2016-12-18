@@ -1,0 +1,59 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div class="brand">With love to .NET</div>
+    <div class="address-bar">мы любим .net</div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                <a class="navbar-brand" href="index.html">Business Casual</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="Index">Главная</a>
+                    </li>
+                    <li>
+                        <a href="Lessons">Уроки</a>
+                    </li>
+                    <li>
+                        <a href="Blog">Плохой код</a>
+                    </li>
+                    <li>
+                        <a href="Contact">Курилка</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        Ошибка. Что-то пошло не так
+                    </h2>
+                    <hr>
+                    <p ng-bind-html="newsHtml"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/StaticContent/js/jquery.js"></script>
+    <script src="~/StaticContent/js/bootstrap.min.js"></script>
+</body>
