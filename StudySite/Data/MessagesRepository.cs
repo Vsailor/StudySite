@@ -24,16 +24,21 @@ namespace StudySite.Data
 
         public Message[] GetMessages(int count, string olderThen)
         {
-            TableQuery<Message> tq = new TableQuery<Message>();
-            string query = $"PartitionKey le '{olderThen}'";
-            tq.Where(query);
+            var tq = new TableQuery<Message>();
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(olderThen))
+            {
+                query = $"PartitionKey gt '{olderThen}'";
+            }
+
+            tq.Where(query).Take(count);
             var result = _cloudTable.ExecuteQuery(tq).ToArray();
             return result;
         }
 
         public void InsertMessage(Message message)
         {
-            TableBatchOperation tbo = new TableBatchOperation();
+            var tbo = new TableBatchOperation();
             tbo.Insert(message);
             _cloudTable.ExecuteBatch(tbo);
         }

@@ -70,14 +70,19 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="row" ng-repeat="post in messages">
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-12">
                             <label>{{post.name}}</label>
                             <font size="2">
-                                <span style="opacity: 0.5">{{post.dateTime}}</span><br />
-                                {{post.text}}<br />
+                                <span style="opacity: 0.5">{{post.date}}</span><br/>
+                                <div ng-repeat="str in post.text">
+                                    {{str}} <br/>
+                                </div>
                             </font>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12" align="center" ng-show="showNextMessagesButtonVisibility">
+                    <button ng-click="LoadNextTenMessages()" class="btn btn-default">Показать следующие 10 сообщений</button>
                 </div>
             </div>
         </div>

@@ -9,10 +9,9 @@ namespace StudySite.Controllers
         [Route("{pageName}")]
         public ActionResult Index(string pageName)
         {
-
             if (pageName != null)
             {
-                return View(pageName); // Redirect("View/Index.html");
+                return View(pageName);
             }
             else
             {

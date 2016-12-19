@@ -14,9 +14,9 @@ namespace StudySite.Controllers
         private MessagesService _messagesService = new MessagesService();
 
         [HttpGet]
-        public string Get(string dateTime, int count)
+        public string Get(int count, int timeZone, string dateTime = null)
         {
-            return _messagesService.GetMessages(dateTime, count);
+            return _messagesService.GetMessages(dateTime, count, timeZone);
         }
 
         [HttpPost]
