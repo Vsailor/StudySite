@@ -11,15 +11,25 @@ body
 
 .navbar-default
 {
-	background-color:#666666;
+	background-color:#333333;
 }
 
-.navbar-nav>li>a:link    {color: white; }
-.navbar-nav>li>a:active  {color: white; }
-.navbar-nav>li>a:visited {color: white; }
+.navbar-nav>li>a:link {
+    color: white;
+    background-color: #333333;
+}
+.navbar-nav>li>a:active  {
+    color: white; 
+    background-color: #333333;
+}
+.navbar-nav>li>a:visited 
+{
+    color: white;
+    background-color: #333333;
+}
 
 
-.navbar-nav>li>a:hover {
+.navbar-default, .navbar-nav>li>a:focus .navbar-default, .navbar-nav>li>a:hover {
 	background-color:#333333;
     color: #CCCCCC
 }
@@ -28,4 +38,8 @@ body
     background-color:#333333;
 }
 
+.footer {
+    background-color:#333333;
+    color: white;
+}
 /* Navigation bar end */

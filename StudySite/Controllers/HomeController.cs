@@ -2,21 +2,38 @@
 
 namespace StudySite.Controllers
 {
-    [Route("")]
+    [RoutePrefix("")]
     public class HomeController : Controller
     {
         [Route("")]
-        [Route("{pageName}")]
-        public ActionResult Index(string pageName)
+        [Route("Index")]
+        public ActionResult Index()
         {
-            if (pageName != null)
-            {
-                return View(pageName);
-            }
-            else
-            {
-                return View();
-            }
+            return View("Index");
+        }
+
+        [Route("Error")]
+        public ActionResult Error()
+        {
+            return View("Error");
+        }
+
+        [Route("BadCode")]
+        public ActionResult BadCode()
+        {
+            return View("BadCode");
+        }
+
+        [Route("Lessons")]
+        public ActionResult Lessons()
+        {
+            return View("Lessons");
+        }
+
+        [Route("SmokingRoom")]
+        public ActionResult SmokingRoom()
+        {
+            return View("SmokingRoom");
         }
     }
 }

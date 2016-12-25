@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Web;
 using Newtonsoft.Json;
 using StudySite.Data;
 using StudySite.Data.Models;
@@ -14,6 +11,7 @@ namespace StudySite.Services
     public class MessagesService
     {
         MessagesRepository _messagesRepository = new MessagesRepository();
+        UserRepository _userRepository = new UserRepository();
         public string GetMessages(string dateTime, int count, int timeZone)
         {
             List<Message> messages = _messagesRepository.GetMessages(count, dateTime).ToList();
@@ -25,25 +23,39 @@ namespace StudySite.Services
                 return partKeyM2 < partKeyM1 ? -1 : 1;
             });
 
-            return JsonConvert.SerializeObject(MessageEntity.Convert(messages.ToArray(), timeZone), Formatting.Indented);
+            var messagesUsers = new Dictionary<Message, User>();
+            foreach (var message in messages)
+            {
+                var existUser = messagesUsers.FirstOrDefault(m => m.Value.PartitionKey == message.RowKey);
+                if (existUser.Key != null)
+                {
+                    messagesUsers.Add(message, existUser.Value);
+                    continue;
+                }
+
+                User user = _userRepository.GetUser(message.RowKey);
+                messagesUsers.Add(message, user);
+            }
+
+            return JsonConvert.SerializeObject(MessageEntity.Convert(messagesUsers, timeZone), Formatting.Indented);
         }
 
-        public void InsertMessage(string userName, string text)
+        public void InsertMessage(string userGuid, string text)
         {
+            User user = _userRepository.GetUser(userGuid);
+            if (user == null)
+            {
+                throw new ArgumentException("Not found");
+            }
+
             var message = new Message
             {
-                Name = userName,
                 Text = text,
-                PartitionKey = (int.MaxValue - GetUnixTime(DateTime.UtcNow)).ToString(),
-                RowKey = string.Empty
+                PartitionKey = (int.MaxValue - TimeService.GetUnixTime(DateTime.UtcNow)).ToString(),
+                RowKey = userGuid
             };
 
             _messagesRepository.InsertMessage(message);
-        }
-
-        private int GetUnixTime(DateTime dateTime)
-        {
-            return (int)(dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
         }
     }
 }

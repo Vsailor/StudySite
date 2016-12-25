@@ -41,8 +41,7 @@
         </div>
     </nav>
 
-    <div class="container">
-
+    <div class="container" ng-cloak>
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -50,15 +49,22 @@
                     <h2 class="intro-text text-center">
                         Тут можно спамить <font size="5">☺</font>
                     </h2>
+                    <p align="center" ng-show="!authenticated">
+                        У нас работает быстрая авторизация<br />
+                        Чтобы общаться в курилке, мы должны знать кто ты:
+                        <br />
+                        <button class="btn btn-default" onclick="window.location = 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://withlovetodotnet.azurewebsites.net/CompleteAuthorization&response_type=code&client_id=545115084576-sj83su0uc1m7unv79bgrp5aru4ntg7cj.apps.googleusercontent.com&scope=email%20profile';">Войти через Google</button>
+
+                    </p>
                     <hr>
                 </div>
                 <div class="col-lg-12">
-                    <div class="row">
-                        <div class="form-group col-lg-4">
-                            <label>Ваше имя:</label><br/>
-                            <input class="form-control" type="text" placeholder="Имя" ng-model="user.name" ng-minlength="3" ng-maxlength="15" required>
-                        </div>
+                    <div class="row" ng-show="authenticated">
                         <div class="clearfix"></div>
+                        <div class="form-group col-lg-12">
+                            <label>{{ userProfile.FullName }}</label>
+                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true" style="cursor: pointer;" ng-click="Logout()"></span>
+                        </div>
                         <div class="form-group col-lg-12">
                             <label>Сообщение:</label>
                             <textarea class="form-control" ng-model="user.newMessage" rows="3" placeholder="Текст сообщения" ng-minlength="1" required></textarea>
@@ -71,14 +77,24 @@
                 <div class="col-lg-12">
                     <div class="row" ng-repeat="post in messages">
                         <div class="form-group col-lg-12">
-                            <label>{{post.name}}</label>
-                            <font size="2">
-                                <span style="opacity: 0.5">{{post.date}}</span><br/>
-                                <div ng-repeat="str in post.text">
-                                    {{str}} <br/>
-                                </div>
-                            </font>
-                        </div>
+                            <table>
+                                <tr> 
+                                    <td  style="padding-right: 8px;" valign="top">
+                                        <img src="{{post.picture}}" width="50"/>
+                                    </td>
+                                    <td>
+
+                                        <label>{{post.name}}</label>
+                                        <font size="2">
+                                            <span style="opacity: 0.5">{{post.date}}</span><br/>
+                                            <div ng-repeat="str in post.text track by $index">
+                                                {{str}} 
+                                            </div>
+                                        </font>
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
                     </div>
                 </div>
                 <div class="col-lg-12" align="center" ng-show="showNextMessagesButtonVisibility">

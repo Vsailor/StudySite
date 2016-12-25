@@ -12,18 +12,7 @@ namespace StudySite
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapRoute(
-                  name: "Homepage",
-                  url: "",
-                  defaults: new { controller = "Home", action = "Index" }
-              );
-
-            routes.MapRoute(
-                  name: "SpecifyPage",
-                  url: "{pageName}",
-                  defaults: new { controller = "Home", action = "Index" }
-              );
+            routes.MapMvcAttributeRoutes();
         }
     }
 }

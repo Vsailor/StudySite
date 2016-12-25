@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using Microsoft.WindowsAzure.Storage;
+﻿using System.Linq;
 using Microsoft.WindowsAzure.Storage.Table;
+using StudySite.Data.Abstract;
 using StudySite.Data.Models;
 
 namespace StudySite.Data
 {
-    public class MessagesRepository
+    public class MessagesRepository : AzureTableRepository
     {
-        private CloudStorageAccount _account;
-        private CloudTableClient _client;
-        private CloudTable _cloudTable;
-
-        public MessagesRepository()
+        public MessagesRepository() : base("Messages")
         {
-            CloudStorageAccount.TryParse(ConfigurationManager.AppSettings["DataConnection"], out _account);
-            _client = _account.CreateCloudTableClient();
-            _cloudTable = _client.GetTableReference("Messages");
         }
 
         public Message[] GetMessages(int count, string olderThen)
@@ -32,7 +21,7 @@ namespace StudySite.Data
             }
 
             tq.Where(query).Take(count);
-            var result = _cloudTable.ExecuteQuery(tq).ToArray();
+            var result = CloudTable.ExecuteQuery(tq).ToArray();
             return result;
         }
 
@@ -40,7 +29,7 @@ namespace StudySite.Data
         {
             var tbo = new TableBatchOperation();
             tbo.Insert(message);
-            _cloudTable.ExecuteBatch(tbo);
+            CloudTable.ExecuteBatch(tbo);
         }
     }
 }

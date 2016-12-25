@@ -1,10 +1,42 @@
 ﻿angular.module('SmokingRoom', ['ngSanitize', 'ngCookies'])
 .controller('SmokingRoomController', ['$scope', '$http', '$cookies', function ($scope, $http, $cookies) {
     var autoUpdaterStarted = false;
+    $scope.authenticated = false;
+    var userGuidCookieKey = 'guid';
+
     var updateFunction =  function() {
         var intervalId = window.setInterval(function () {
-            loadMessages($scope.messages.length);
+            if ($scope.messages.length <= 10) {
+                loadMessages(10);
+            } else {
+                loadMessages($scope.messages.length);
+            }
         }, 5000);
+    }
+
+    $scope.Logout = function() {
+        $scope.user.userGuid = undefined;
+        $scope.authenticated = false;
+        $cookies.remove(userGuidCookieKey);
+    }
+
+    var loadUser = function () {
+        if ($scope.user == null ||
+          $scope.user == undefined ||
+          $scope.user.userGuid == null ||
+          $scope.user.userGuid == undefined) {
+            return;
+        }
+
+        $http({
+            method: 'GET',
+            url: 'api/auth/' + $scope.user.userGuid
+        }).then(function (response) {
+            return response.data;
+        })
+           .then(function (response) {
+               $scope.userProfile = angular.fromJson(response);
+           });
     }
 
     var loadMessages = function (count) {
@@ -20,7 +52,7 @@
                     var text = value.text.split('\n');
                     $scope.messages[key].text = text;
                 });
-                if ($scope.messages.length % 10 != 0) {
+                if ($scope.messages.length % 10 != 0 || $scope.messages.length == 0) {
                     $scope.showNextMessagesButtonVisibility = false;
                 }
                 else {
@@ -42,8 +74,14 @@
             return response.data;
         })
            .then(function (response) {
-               $scope.messages = $scope.messages.concat(angular.fromJson(response));
-               if ($scope.messages.length % 10 != 0) {
+                var json = angular.fromJson(response);
+                angular.forEach(json, function (value, key) {
+                    var text = value.text.split('\n');
+                    json[key].text = text;
+                });
+
+                $scope.messages = $scope.messages.concat(json);
+                if ($scope.messages.length % 10 != 0 || $scope.messages.length == 0) {
                    $scope.showNextMessagesButtonVisibility = false;
                }
                else {
@@ -53,31 +91,45 @@
 
     }
 
-    loadMessages(10);
+    var UpdateAuthModel = function () {
+        $scope.userGuidCookie = $cookies.get(userGuidCookieKey);
+        if ($scope.userGuidCookie != undefined) {
+            $scope.user = {
+                userGuid: $scope.userGuidCookie
+            }
 
-
-    var userNameCookieKey = 'userName';
-    var userNameCookie = $cookies.get(userNameCookieKey);
-    if (userNameCookie != undefined) {
-        $scope.user = {
-            name: userNameCookie
+            $scope.authenticated = true;
         }
     }
+
+    loadMessages(10);
+    UpdateAuthModel();
+    loadUser();
+
+    $scope.userGuidCookie = $cookies.get(userGuidCookieKey);
+    if ($scope.userGuidCookie != undefined) {
+        $scope.user = {
+            userGuid: $scope.userGuidCookie
+        }
+
+        $scope.authenticated = true;
+    }
+
+
     $scope.SendMessage = function () {
+       
+
         if ($scope.user == null ||
             $scope.user == undefined ||
             $scope.user.newMessage == null ||
             $scope.user.newMessage == undefined ||
-            $scope.user.name == null ||
-            $scope.user.name == undefined) {
+            $scope.user.userGuid == null ||
+            $scope.user.userGuid == undefined) {
             return;
         }
 
-        $cookies.put(userNameCookieKey, $scope.user.name);
-
-
         var postData = {
-            userName: $scope.user.name,
+            userGuid: $scope.user.userGuid,
             message: $scope.user.newMessage
         }
 
